@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./src/output.css">
+    <title>Document</title>
+</head>
+<body>
+    <div class="container mx-auto p-4 bg-orange-200 rounded-xl">
+        <h1 class="text-2xl font-bold mb-4 text-center">Simple Calculator</h1>
+        <form id="calcForm" class="shadow-md rounded px-8 pt-6 pb-8 mb-4 bg-orange-300">
+            <div class="mb-4">
+                <input type="text" id="num1" placeholder="Enter first number" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            <div class="mb-4">
+                <input type="text" id="num2" placeholder="Enter second number" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+            </div>
+            
+            <div class="operator mb-4">
+                <label class="block"><input type="radio" name="operator" value="add" required class="mr-2"> + (Add)</label>
+                <label class="block"><input type="radio" name="operator" value="subtract" class="mr-2"> - (Subtract)</label>
+                <label class="block"><input type="radio" name="operator" value="multiply" class="mr-2"> × (Multiply)</label>
+                <label class="block"><input type="radio" name="operator" value="divide" class="mr-2"> ÷ (Divide)</label>
+            </div>
+            
+            <div class="flex items-center justify-between">
+                <button type="submit" class="bg-orange-500 hover:bg-orange-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">Calculate</button>
+            </div>
+        </form>
+
+        <div class="result text-3xl font-bold mt-4 text-orange-500 text-center" id="result"></div>
+    </div>
+
+    <script>
+        const isValidNumber = (str) => {
+            return !isNaN(str) && !isNaN(parseFloat(str));
+        };
+
+        document.getElementById("num1").addEventListener("blur", function() {
+            if (!isValidNumber(this.value)) {
+                alert("Please enter a valid decimal number for the first number");
+            }
+        });
+
+        document.getElementById("num2").addEventListener("blur", function() {
+            if (!isValidNumber(this.value)) {
+                alert("Please enter a valid decimal number for the second number");
+            }
+        });
+
+        document.getElementById("calcForm").addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const num1 = document.getElementById("num1").value;
+            const num2 = document.getElementById("num2").value;
+            const operator = document.querySelector('input[name="operator"]:checked').value;
+
+            if (!isValidNumber(num1) || !isValidNumber(num2)) {
+                alert("Please enter valid decimal numbers");
+                return;
+            }
+
+            const number1 = parseFloat(num1);
+            const number2 = parseFloat(num2);
+
+            if (operator === "divide" && number2 === 0) {
+                alert("Cannot divide by zero");
+                return;
+            }
+
+            let result = 0;
+
+            if (operator === "add") {
+                result = number1 + number2;
+            } else if (operator === "subtract") {
+                result = number1 - number2;
+            } else if (operator === "multiply") {
+                result = number1 * number2;
+            } else if (operator === "divide") {
+                result = number1 / number2;
+            }
+
+            document.getElementById("result").innerText = "Result: " + result;
+        });
+    </script>
+</body>
+</html>
